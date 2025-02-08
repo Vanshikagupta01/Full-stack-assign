@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Connection</title>
+    <link rel="stylesheet" type="text/css" href="index.html">
+</head>
+<body>
+    <h1>WebSocket Connection</h1>
+    
+    <label for="wsUrl">Enter WebSocket URL:</label>
+    <input type="text" id="wsUrl" placeholder="ws://localhost:5000">
+    <button onclick="connectWebSocket()">Connect</button>
+    
+    <p id="status">Status: Not Connected</p>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+        let socket;
+
+        function connectWebSocket() {
+            const url = document.getElementById("wsUrl").value;
+            socket = io(url, { transports: ['websocket'] });
+
+            socket.on("connect", () => {
+                document.getElementById("status").innerText = "Status: Connected";
+                console.log("Connected to WebSocket");
+            });
+
+            socket.on("refreshEvent", (eventId) => {
+                console.log("Event Updated:", eventId);
+                alert(`Event ${eventId} updated in real-time!`);
+            });
+
+            socket.on("disconnect", () => {
+                document.getElementById("status").innerText = "Status: Disconnected";
+                console.log("Disconnected from WebSocket");
+            });
+        }
+    </script>
+</body>
+</html>
