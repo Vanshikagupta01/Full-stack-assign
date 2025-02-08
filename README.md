@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Management</title>
+</head>
+<body>
+    <h1>Event List</h1>
+    <div id="event-list"></div>
+
+    <script>
+        const API_BASE_URL = "https://mycompiler-backend-url.com/api"; // Replace with MyCompiler backend URL
+
+        async function fetchEvents() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/events`);
+                const events = await response.json();
+                document.getElementById("event-list").innerHTML = events.map(event => 
+                    `<p>${event.name} - ${new Date(event.date).toLocaleString()}</p>`
+                ).join("");
+            } catch (error) {
+                console.error("Error fetching events:", error);
+            }
+        }
+
+        fetchEvents();
+    </script>
+</body>
+</html>
